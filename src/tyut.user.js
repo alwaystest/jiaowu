@@ -3,7 +3,7 @@
 // @name  crack tyut
 // @description 破解教务评教时间
 // @author	eric
-// @version 1.2
+// @version 1.2.1
 // @include *jwcurp.tyut.edu.cn:80*
 // @include http://202.207.247.44*
 // @include http://202.207.240.58*
@@ -12,9 +12,9 @@
 // @grant GM_log
 // ==/UserScript==
 
-var start=0;
-var end=4;
 var arr=new Array("老师教的很好","老师讲的很认真","老师用心的讲课","老师很热心","老师很负责")
+var start=0;
+var end=arr.length;
 if (unsafeWindow.flag==false){
 	//console.log(unsafeWindow.flag);
 	var aim = document.getElementsByName('zgpj');
