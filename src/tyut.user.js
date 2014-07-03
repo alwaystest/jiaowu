@@ -2,7 +2,7 @@
 // @name  crack tyut
 // @description 破解教务评教时间
 // @author	eric
-// @version 1.2.1
+// @version 1.2.2
 // @include *jwcurp.tyut.edu.cn:80*
 // @include http://202.207.247.44*
 // @include http://202.207.240.58*
