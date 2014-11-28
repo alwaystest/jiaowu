@@ -9,5 +9,5 @@ GUI按键选择是否自动签到
 默认全部好评，评语从预先配置的数组中随机
 最新版本实现进入评教页面自动开始评教，console输出信息在控制台
   
-
+####感谢网友 杰她她老伯 寂寞的原子 指导
 [Greasefork](https://greasyfork.org/scripts/2913-crack-tyut)
