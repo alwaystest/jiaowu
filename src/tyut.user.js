@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name  crack tyut
-// @description 破解教务评教时间 firefox支持only chrome请安装https://github.com/alwaystest/jiaowu/raw/00ff4aae3574cc2affad40ca77284558c6573a4f/src/tyut.user.js
+// @description 破解教务评教时间 firefox30+ && GM2.X 支持only chrome请安装https://github.com/alwaystest/jiaowu/raw/00ff4aae3574cc2affad40ca77284558c6573a4f/src/tyut.user.js
 // @author	eric
-// @version 1.2.4
+// @version 1.2.5
 // @include *jwcurp.tyut.edu.cn:80*
 // @include http://202.207.247.44*
 // @include http://202.207.240.58*
@@ -12,11 +12,18 @@
 // @grant GM_setValue
 // @grant GM_getValue
 // @grant GM_deleteValue
+// @grant unsafeWindow
 // @namespace https://greasyfork.org/users/3141
 // ==/UserScript==
 
 /*********************************************
+ * ******************Notes********************
+ * for FF30+ need exportFunction  to access object . For now primitive values can access without export.
+ * ******************LOGS*********************
+ * 2014.11.29  fix alert override. 18:14
+ * noalert() append() next() stop() are not used
  * 2014.11.29  fix on FF32 GM2 。alert不能被noalert() override，使用网友 杰她她老伯 提供的代码暂时修复，目前不知道
+//noalert(); //14.11.29  found can't override alert();
  * 问题出在哪里，明天早上还有考研数学课。先能用了吧。 1：57
  *
  *********************************************/
@@ -26,11 +33,28 @@ var end=arr.length;
 var i=0;
 var timeout=1000;
 console.log("start");
-//noalert(); //14.11.29  found can't override alert();
-append(s);
-//unsafeWindow.alert("test"); //for test if append(s); works 
+var Sys=getBrowser();
+if(Sys.ver>="30"){//30以上采用exportFunction，以下采用旧版方法，未测试此版是否兼容FF30+
+	var _alert=function(s){
+		if(s=="评估失败，请返回！")
+			unsafeWindow.alert("评的快了，请歇息一会");
+		console.log(s);
+	}
+	exportFunction(_alert,unsafeWindow,{defineAs:"alert"});
+}else{
+	append(s); // 1/1
+}
+//noalert(); //1.2.2 used 1/2
+/*for FF30+ need exportFunction  to access object . For now primitive values can access without export.
+  function foo(){
+  console.log("foo");
+  }
+  exportFunction(foo, unsafeWindow, {
+  defineAs: "foo"
+  });
+  */
 document.onreadystatechange = function () {
-//noalert();
+	//noalert();  //1.2.2 used 2/2
 	if (document.readyState == "complete") {
 		console.log("complete");
 		pg();
@@ -78,7 +102,7 @@ function submit(){
 		//unsafeWindow.document.StDaForm.submit();//自动提交
 	}
 }
-function next(){
+function next(){//强制跳转回评教主页，可能导致忽略评教反馈，评教失败
 	if(unsafeWindow.document.title=="问卷评估结果"){
 		unsafeWindow.location.href='jxpgXsAction.do?oper=listWj';
 	}
@@ -91,7 +115,7 @@ function noalert(){
 		console.log(s);
 	}
 }
-function stop(){
+function stop(){//忘了这个是干嘛的了，为啥要强制停止来着？
 	window.stop();
 }	
 function rnd(start, end){
@@ -99,10 +123,20 @@ function rnd(start, end){
 }
 //感谢网友 杰她她老伯 寂寞的原子指点。在网页前面插入函数，不使用unsafeWindow就达到改变alert的功能。油猴子真是太难了
 function append(s) {
-document.head.appendChild(document.createElement('script')).innerHTML = s.toString().replace(/(^function.*?\(\)\s*?\{|\}$)/g, '');
+	document.head.appendChild(document.createElement('script')).innerHTML = s.toString().replace(/(^function.*?\(\)\s*?\{|\}$)/g, '');
 }
 
 function s(){
-alert = console.log.bind(console);
+	alert = console.log.bind(console);
 
 };
+function getBrowser()
+{
+	var Sys = {};
+	var ua = navigator.userAgent.toLowerCase();
+	var re =/(firefox).*?([\d.]+)/;
+	var m = ua.match(re);
+	Sys.browser = m[0];
+	Sys.ver = m[2];
+	return Sys;
+}
