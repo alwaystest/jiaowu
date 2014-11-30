@@ -18,12 +18,14 @@
 
 /*********************************************
  * ******************Notes********************
+ *
  * for FF30+ need exportFunction  to access object . For now primitive values can access without export.
+ *
  * ******************LOGS*********************
+ *
  * 2014.11.29  fix alert override. 18:14
  * noalert() append() next() stop() are not used
  * 2014.11.29  fix on FF32 GM2 。alert不能被noalert() override，使用网友 杰她她老伯 提供的代码暂时修复，目前不知道
-//noalert(); //14.11.29  found can't override alert();
  * 问题出在哪里，明天早上还有考研数学课。先能用了吧。 1：57
  *
  *********************************************/
