@@ -4,9 +4,8 @@
 // @author	eric
 // @version 1.2.5
 // @include *jwcurp.tyut.edu.cn:80*
-// @include http://202.207.247.44*
-// @include http://202.207.240.58*
-// @include file://* 
+// @include http://202.207.247.4*
+// @include file://*
 // @run-at document-start
 // @grant GM_log
 // @grant GM_setValue
@@ -119,7 +118,7 @@ function noalert(){
 }
 function stop(){//忘了这个是干嘛的了，为啥要强制停止来着？
 	window.stop();
-}	
+}
 function rnd(start, end){
 	return Math.floor(Math.random() * (end - start) + start);
 }
