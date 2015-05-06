@@ -22,6 +22,7 @@
  *
  * ******************LOGS*********************
  *
+ * 2015.5.6 教务处最新评估页面图片不足14个，导致之前判断逻辑失效，修复为只要教务处页面有图片就过一遍。
  * 2014.11.29  fix alert override. 18:14
  * noalert() append() next() stop() are not used
  * 2014.11.29  fix on FF32 GM2 。alert不能被noalert() override，使用网友 杰她她老伯 提供的代码暂时修复，目前不知道
@@ -68,7 +69,7 @@ document.onreadystatechange = function () {
 
 function pg(){
 	var pic=document.getElementsByTagName('img');
-	if(pic[14]){
+	if(pic[0]){//2015.5.6 fix . 只要有图片就过一遍。
 		console.log("choose");
 		for(i=0;i<pic.length;i++){
 			if(pic[i].title=="评估")
